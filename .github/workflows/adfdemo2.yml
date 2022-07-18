@@ -69,10 +69,10 @@ jobs:
           factoryDirectory: "${{ steps.getSecrets1.outputs.factoryDirectory }}"
  
       # Copy parameters files for destination data factory
-      - name: Copy Applicable Parameter File
-        run: cp "$factoryDirectory/$armParameterFile" ${{ steps.getSecrets1.outputs.artifactName }}
-        env:
-          factoryDirectory: "${{ steps.getSecrets1.outputs.factoryDirectory }}"
+      #- name: Copy Applicable Parameter File
+      #  run: cp "$factoryDirectory/$armParameterFile" ${{ steps.getSecrets1.outputs.artifactName }}
+      #  env:
+      #    factoryDirectory: "${{ steps.getSecrets1.outputs.factoryDirectory }}"
       # List artifact files
       - name: List Artifact Files
         run: ls ${{ steps.getSecrets1.outputs.artifactName }} #list command run to check files inside folder.
