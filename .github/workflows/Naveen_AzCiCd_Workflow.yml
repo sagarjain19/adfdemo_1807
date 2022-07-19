@@ -152,7 +152,7 @@ jobs:
               -DataFactoryName ${{ steps.getSecrets2.outputs.targetFactoryName }} `
               -predeployment $false `
               -deleteDeployment $false
-          azPSVersion: latest 
+          azPSVersion: latest
       # Checkout current branch
       - name: Checkout 
         uses: actions/checkout@v1
