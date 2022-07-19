@@ -62,7 +62,13 @@
 				"outputs": [
 					{
 						"referenceName": "destinationdataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"destination_storage_url": {
+								"value": "@pipeline().parameters.source_storage_url",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
