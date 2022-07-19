@@ -239,7 +239,13 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "AzureDataLakeStorage2_Parameterize",
-					"type": "LinkedServiceReference"
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"Storage_url": {
+							"value": "@dataset().destination_storage_url",
+							"type": "Expression"
+						}
+					}
 				},
 				"parameters": {
 					"destination_storage_url": {
