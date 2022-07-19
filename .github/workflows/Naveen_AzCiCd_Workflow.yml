@@ -13,13 +13,13 @@ on:
       - code/datafactory/trigger/*
     
   workflow_dispatch:
-env:
+#env:
   # Variables subject to change depending on target
   #tenantId: eab91f23-3244-40aa-8e73-a1e0e1e22949
   #sourceSubscriptionId: 24e4b4be-7875-429e-9548-fdc3241c1683
   #destinationSubscriptionId: 24e4b4be-7875-429e-9548-fdc3241c1683
   #sourceResourceGroupName: rgdemo101
-  #sourceFactoryName: adfdemo1010
+  #sourceFactoryName1: adfdemo1010
   #destinationResourceGroupName: rgdemo101
   #destinationFactoryName: adedemo2020
   #armParameterFile: ARMTemplateParametersForFactory.json
@@ -58,14 +58,14 @@ jobs:
       - name: Validate
         run: npm run build validate $factoryDirectory $npmstring
         env:
-          npmstring: /subscriptions/"${{ steps.getSecrets1.outputs.sourceSubscriptionId }}"/resourceGroups/"${{ steps.getSecrets1.outputs.sourceResourceGroupName }}"/providers/Microsoft.DataFactory/factories/"${{ steps.getSecrets1.outputs.sourceFactoryName }}"
+          npmstring: /subscriptions/"${{ steps.getSecrets1.outputs.sourceSubscriptionId }}"/resourceGroups/"${{ steps.getSecrets1.outputs.sourceResourceGroupName }}"/providers/Microsoft.DataFactory/factories/"${{ steps.getSecrets1.outputs.sourceFactoryName1 }}"
           factoryDirectory: "${{ steps.getSecrets1.outputs.factoryDirectory }}"
           
       # Generate ARM Template
       - name: Generate ARM Template
         run: npm run build export $factoryDirectory $npmstring
         env:
-          npmstring: /subscriptions/"${{ steps.getSecrets1.outputs.sourceSubscriptionId }}"/resourceGroups/"${{ steps.getSecrets1.outputs.sourceResourceGroupName }}"/providers/Microsoft.DataFactory/factories/"${{ steps.getSecrets1.outputs.sourceFactoryName }}" $artifactName
+          npmstring: /subscriptions/"${{ steps.getSecrets1.outputs.sourceSubscriptionId }}"/resourceGroups/"${{ steps.getSecrets1.outputs.sourceResourceGroupName }}"/providers/Microsoft.DataFactory/factories/"${{ steps.getSecrets1.outputs.sourceFactoryName1 }}" $artifactName
           factoryDirectory: "${{ steps.getSecrets1.outputs.factoryDirectory }}"
 
       # Copy parameters files for destination data factory
@@ -87,12 +87,6 @@ jobs:
     environment: PRD # !! Change depending on target environment
     runs-on: ubuntu-latest
     steps:
-      # Download ARM Template from Workflow Artifacts
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.artifactName }}
-          path: ${{ env.artifactName }}
       # Initiate connection to Azure
       - name: Azure Login
         uses: azure/login@v1
@@ -105,22 +99,28 @@ jobs:
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: AzKeyVault1010
-          secrets: 'targetSubscriptionId,targetResourceGroupName,targetFactoryName'
+          secrets: 'targetSubscriptionId,targetResourceGroupName,targetFactoryName,artifactName,armParameterFile'
+      # Download ARM Template from Workflow Artifacts
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ steps.getSecrets1.outputs.artifactName }}
+          path: ${{ steps.getSecrets1.outputs.artifactName }}
       # Validate ARM Template
       - name: Validate Deployment
         uses:  azure/arm-deploy@v1
         with:
           subscriptionId: ${{ steps.getSecrets2.outputs.targetSubscriptionId }}
           resourceGroupName: ${{ steps.getSecrets2.outputs.targetResourceGroupName }}
-          template: ${{ env.artifactName }}/ARMTemplateForFactory.json
-          parameters: ${{ env.artifactName }}/${{ env.armParameterFile }}
+          template: ${{ steps.getSecrets2.outputs.artifactName }}/ARMTemplateForFactory.json
+          parameters: ${{ steps.getSecrets2.outputs.artifactName }}/${{ steps.getSecrets2.outputs.armParameterFile }}
           deploymentMode: Validate
       # Execute Adf Pre-Deployment Script
       - name: Pre-Deployment Script
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Set-Location ${{ env.artifactName }}
+            Set-Location ${{ steps.getSecrets2.outputs.artifactName }}
             ./PrePostDeploymentScript.ps1 `
               -armTemplate ARMTemplateForFactory.json `
               -ResourceGroupName ${{ steps.getSecrets2.outputs.targetResourceGroupName }} `
@@ -135,8 +135,8 @@ jobs:
           inlineScript: |
             New-AzResourceGroupDeployment `
               -ResourceGroupName ${{ steps.getSecrets2.outputs.targetResourceGroupName }} `
-              -TemplateFile ${{ env.artifactName }}/ARMTemplateForFactory.json `
-              -TemplateParameterFile ${{ env.artifactName }}/${{ env.armParameterFile }} `
+              -TemplateFile ${{ steps.getSecrets2.outputs.artifactName }}/ARMTemplateForFactory.json `
+              -TemplateParameterFile ${{ steps.getSecrets2.outputs.artifactName }}/${{ steps.getSecrets2.outputs.armParameterFile } `
               -factoryName adedemo2020 `
               -Verbose
           azPSVersion: latest
@@ -145,7 +145,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Set-Location ${{ env.artifactName }}
+            Set-Location ${{ steps.getSecrets1.outputs.artifactName }}
             ./PrePostDeploymentScript.ps1 `
               -armTemplate ARMTemplateForFactory.json `
               -ResourceGroupName ${{ steps.getSecrets2.outputs.targetResourceGroupName }} `
