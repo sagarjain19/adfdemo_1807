@@ -50,7 +50,13 @@
 				"inputs": [
 					{
 						"referenceName": "sourcedataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"source_dataset_url": {
+								"value": "@pipeline().parameters.source_storage_url",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
@@ -61,6 +67,11 @@
 				]
 			}
 		],
+		"parameters": {
+			"source_storage_url": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
