@@ -107,7 +107,7 @@
 		"parameters": {
 			"keyvault_url": {
 				"type": "string",
-				"defaultValue": "https://azkeyvault1010.vault.azure.net/"
+				"defaultValue": "https://azkeyvault1010.vault.azure.net/secrets/URLStorageAccount/95e4e02eeb79490ab3c7264c693e7731?api-version=7.3"
 			}
 		},
 		"annotations": []
