@@ -136,7 +136,7 @@ jobs:
             New-AzResourceGroupDeployment `
               -ResourceGroupName ${{ steps.getSecrets2.outputs.targetResourceGroupName }} `
               -TemplateFile ${{ steps.getSecrets2.outputs.artifactName }}/ARMTemplateForFactory.json `
-              -TemplateParameterFile ${{ steps.getSecrets2.outputs.artifactName }}/${{ steps.getSecrets2.outputs.armParameterFile } `
+              -TemplateParameterFile ${{ steps.getSecrets2.outputs.artifactName }}/${{ steps.getSecrets2.outputs.armParameterFile }} `
               -factoryName adedemo2020 `
               -Verbose
           azPSVersion: latest
