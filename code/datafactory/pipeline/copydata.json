@@ -99,7 +99,7 @@
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
-						"resource": "vault.azure.net"
+						"resource": "https://vault.azure.net"
 					}
 				}
 			}
