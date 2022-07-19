@@ -15,6 +15,14 @@
 			"type": "string",
 			"defaultValue": "https://azstorage108.dfs.core.windows.net/"
 		},
+		"AzureDataLakeStorage2_Parameterize_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Storage_url}"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://AzKeyVault1010.vault.azure.net/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -47,6 +55,12 @@
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"AzureDataLakeStorage2_Parameterize_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage2_Parameterize_properties_typeProperties_url')]"
 					}
 				}
 			},
