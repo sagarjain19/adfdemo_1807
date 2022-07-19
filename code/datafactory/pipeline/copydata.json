@@ -5,7 +5,14 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -53,7 +60,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"source_dataset_url": {
-								"value": "@pipeline().parameters.source_storage_url",
+								"value": "@activity('Web1').output.value",
 								"type": "Expression"
 							}
 						}
@@ -65,17 +72,45 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"destination_storage_url": {
-								"value": "@pipeline().parameters.source_storage_url",
+								"value": "@activity('Web1').output.value",
 								"type": "Expression"
 							}
 						}
 					}
 				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": {
+						"value": "@pipeline().parameters.keyvault_url",
+						"type": "Expression"
+					},
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "vault.azure.net"
+					}
+				}
 			}
 		],
 		"parameters": {
 			"source_storage_url": {
 				"type": "string"
+			},
+			"keyvault_url": {
+				"type": "string",
+				"defaultValue": "https://azkeyvault1010.vault.azure.net/"
 			}
 		},
 		"annotations": []
