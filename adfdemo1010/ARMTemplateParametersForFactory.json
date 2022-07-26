@@ -14,11 +14,11 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://azstorage108.dfs.core.windows.net/"
 		},
-		"AzureDataLakeStorage2_Parameterize_properties_typeProperties_url": {
-			"value": "@{linkedService().Storage_url}"
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://AzKeyVault1010.vault.azure.net/"
+		},
+		"AzureDataLakeStorage2_Parameterize_properties_typeProperties_url": {
+			"value": "@{linkedService().Storage_url}"
 		}
 	}
 }
