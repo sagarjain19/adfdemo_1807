@@ -1,0 +1,34 @@
+{
+	"name": "destinationdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage2_Parameterize",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Storage_url": {
+					"value": "@dataset().destination_storage_url",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"destination_storage_url": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "input",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
