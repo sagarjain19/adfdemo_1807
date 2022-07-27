@@ -1,4 +1,4 @@
-name: Naveen_AzCiCd_Workflow_2
+name: cicdtestingfile
 on: 
   push:
     branches:
