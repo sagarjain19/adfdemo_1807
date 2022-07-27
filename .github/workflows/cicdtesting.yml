@@ -4,7 +4,7 @@ on:
     branches:
       - cicdtesting
     paths: 
-      - /
+      - /adfdemo_1807/.github/workflows/
     
   workflow_dispatch:
 #env:
