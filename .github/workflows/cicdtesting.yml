@@ -3,10 +3,6 @@ on:
   push:
     branches:
       - cicdtesting
-      - adf_collaboration
-    paths: 
-      - /*
-    
   workflow_dispatch:
 #env:
   # Variables subject to change depending on target
