@@ -1,8 +1,8 @@
-name: cicdtestingfile
+name: Naveen_AzCiCd_Workflow_2
 on: 
   push:
     branches:
-      - cicdtesting
+      - cicdtesting   
   workflow_dispatch:
 #env:
   # Variables subject to change depending on target
@@ -90,7 +90,7 @@ jobs:
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: AzKeyVault1010
-          secrets: 'targetSubscriptionId,targetResourceGroupName,targetFactoryName,artifactName,armParameterFile'
+          secrets: 'sourceFactoryName1,targetSubscriptionId,targetResourceGroupName,targetFactoryName,artifactName,armParameterFile'
       # Download ARM Template from Workflow Artifacts
       - name: Download Artifact
         uses: actions/download-artifact@v2
