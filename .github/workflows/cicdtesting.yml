@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - cicdtesting
+      - adf_collaboration
     paths: 
       - /*
     
